@@ -1,0 +1,64 @@
+buildscript {
+    dependencies {
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
+
+group 'SimplExtractor'
+version '0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'com.google.osdetector'
+
+ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlin:kotlin-reflect"
+    def coroutines_version = '1.2.2'
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-javafx:$coroutines_version"
+    compile files("JAVALIB_LOCAL/sevenzipjbinding-16.02-2.01beta-20170914-Windows-amd64/lib/sevenzipjbinding.jar")
+    compile files("JAVALIB_LOCAL/sevenzipjbinding-16.02-2.01beta-20170914-Windows-amd64/lib/sevenzipjbinding-Windows-amd64.jar")
+    compile "com.ibm.icu:icu4j:63.1"
+    compile group: 'com.xenomachina', name: 'kotlin-argparser', version: '2.0.7'
+    // Seems to be needed to avoid `Exception in thread "main" java.lang.NoClassDefFoundError: javafx/application/Application`
+    compile "org.openjfx:javafx-base:11.0.2:$platform"
+    compile "org.openjfx:javafx-graphics:11.0.2:$platform"
+    compile "org.openjfx:javafx-controls:11.0.2:$platform"
+    compile "org.openjfx:javafx-fxml:11.0.2:$platform"
+
+}
+
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.fxml' ]
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'MainKt'
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
