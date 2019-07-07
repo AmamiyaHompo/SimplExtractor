@@ -24,10 +24,6 @@ class IgnoringItem (
             checked = true
             result = result && (itemName.datum == item.path.getFullName())
         }
-        if (itemModifiedDate.level == Level.SURE) {
-            checked = true
-            result = result && (itemModifiedDate.datum == item.modifiedDate)
-        }
         return if (checked) result else false
     }
 }

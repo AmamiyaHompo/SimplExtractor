@@ -10,5 +10,3 @@ fun Level.toShortString() = when (this) {
 }
 
 enum class MessageType { NoProblem, Warning, Bad, Critical }
-
-enum class ResultType { All, Same, Diff, Ignored }
