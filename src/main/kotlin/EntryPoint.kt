@@ -34,19 +34,18 @@ class EntryPoint : Application() {
         tab.text = "Tab$tabCount"
         val fxml = javaClass.getResource("fxml/NestTab.fxml")
         val aTabSpace: Pane = FXMLLoader.load(fxml)
-        val filePathArea= aTabSpace.lookup("#FilePaths") as TextArea // FilePaths TextArea
-        val messageBox= aTabSpace.lookup("#MessageBox") as HBox
-        val resultTabPane= aTabSpace.lookup("#ResultTab") as TabPane
-        val cancelButton= aTabSpace.lookup("#CancelButton") as Button
+        val filePathArea = aTabSpace.lookup("#FilePaths") as TextArea // FilePaths TextArea
+        val messageBox = aTabSpace.lookup("#MessageBox") as HBox
+        val resultArea = aTabSpace.lookup("#ResultArea") as TextArea
         val showIgnrBox = aTabSpace.lookup("#ShowIgnored") as CheckBox
         val showExedBox = aTabSpace.lookup("#ShowExtracted") as CheckBox
         val showDirBox = aTabSpace.lookup("#ShowDirectory") as CheckBox
 
         messageBox.border = Border(BorderStroke(Paint.valueOf("Red"),BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT))
-        resultTabPane.border = Border(BorderStroke(Paint.valueOf("Green"),BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT))
+        resultArea.border = Border(BorderStroke(Paint.valueOf("Green"),BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT))
         tab.content = aTabSpace
 
-        filePathArea.text = filePaths.toString()
+        filePathArea.text = filePaths.joinToString(separator = "\n")
         filePathArea.font = Font.font(null,FontWeight.NORMAL,14.0)
 
         aTabSpace.onDragOver = EventHandler { event ->
@@ -81,13 +80,13 @@ class EntryPoint : Application() {
         addMessageLabel(messageBox, rASV.first, rASV.second)
         when(rASV.first) {
             MessageType.Warning -> {
-                tab.text = "Only One"
+                tab.text = "No Archive"
                 tab.style = defaultBlackTabStyle.plus("-fx-background-color: LightSkyBlue")
                 aTabSpace.style = "-fx-background-color: CornflowerBlue"
                 return tab
             }
             MessageType.Critical -> {
-                tab.text = "Missing"
+                tab.text = "Too much archives"
                 tab.style = defaultBlackTabStyle.plus("-fx-background-color: yellow")
                 aTabSpace.style = "-fx-background-color: yellow"
                 return tab
@@ -95,22 +94,63 @@ class EntryPoint : Application() {
             else -> {}
         }
 
-        // TODO: Not implemented yet
-        val titleFromFileName = ""
-
-        print("Make the table for $titleFromFileName\n")
-        tab.text = "Table Making: $titleFromFileName"
+        tab.text = "Preparing a task"
         tab.style = defaultBlackTabStyle
 
         val task = GlobalScope.launch {
 
+            // Step 2: Select ItemID of extracting file
             Platform.runLater {
-                tab.text = "Analyzing: $titleFromFileName"
+                tab.text = "Open an Archive"
+            }
+            println("Open an Archive ${filePaths[0]}")
+            val anANS = openArchive(filePaths[0])
+            if (anANS == null) {
+                Platform.runLater {
+                    tab.text = "Fail to get ANS"
+                }
+            } else {
+                println("Get ANS of ${filePaths[0]}")
+                val anArchive = Archive(anANS!!,filePaths[0])
+
+                Platform.runLater {
+                    tab.text = "Extracting"
+                }
+                // Step 3: Extract each items by ItemID
+                println("Extract ${filePaths[0]}")
+                rASV = anArchive.extractAll()
+                Platform.runLater {
+                    addMessageLabel(messageBox, rASV.first, rASV.second)
+                }
+                if (rASV.first == MessageType.Critical) {
+                    Platform.runLater {
+                        tab.text = "Fail to extract every files"
+                        tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
+                        aTabSpace.style = "-fx-background-color: red"
+                    }
+                } else {
+                    println("Rename ${filePaths[0]}")
+                    rASV = anArchive.renameAll()
+                    Platform.runLater {
+                        addMessageLabel(messageBox, rASV.first, rASV.second)
+                    }
+                    Platform.runLater {
+                        if (rASV.first == MessageType.Critical) {
+                            tab.text = "Fail to rename"
+                            tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
+                            aTabSpace.style = "-fx-background-color: red"
+                        } else {
+                            tab.text = "Success"
+                            tab.style = defaultBlackTabStyle.plus("-fx-background-color: green")
+                            aTabSpace.style = "-fx-background-color: green"
+                        }
+                    }
+                    println("Close ${filePaths[0]}")
+                    anArchive.closeArchive()
+                }
             }
 
-
-
-            println("End a analysis")
+            println("End a task")
         }
 
         return tab

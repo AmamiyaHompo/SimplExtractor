@@ -102,3 +102,7 @@ fun MutableList<String>.getSame(): Pair<Boolean,List<Pair<String,String>>> {
     }
     return Pair(true, pairList)
 }
+
+fun String.replaceSpace(): String {
+    return this.replace(" ", "_")
+}

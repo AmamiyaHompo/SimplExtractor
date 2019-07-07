@@ -5,7 +5,7 @@ import archive.*
 import util.*
 
 fun main(args : Array<String>) {
-    println("ArchiveDiffer-Kotlin")
+    println("SimplExtract-Kotlin")
 
     if (!jBindingChecker()) error("Fail to initialize 7Zip-JBinding")
 
@@ -16,7 +16,7 @@ fun main(args : Array<String>) {
             println("Fail to load IgnoringList")
             return
         }
-
+        theWorkingDirectory = aWorkingDirectory
         Application.launch(EntryPoint().javaClass, *args)
     }
 

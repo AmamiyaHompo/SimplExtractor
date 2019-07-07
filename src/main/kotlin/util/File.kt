@@ -42,7 +42,7 @@ fun writeFileDirectlyAsBytes(fileName: String, fileContent: String) =
 fun checkArchiveExistence(filePaths: Array<Path>): Pair<MessageType,String> {
     for (aPath in filePaths) {
         if (!File(aPath).exists())
-            return Pair(MessageType.Bad,"Can't access\n${aPath.last()}")
+            return Pair(MessageType.Bad,"Can't access\n$aPath")
         else
             println("Exist: $aPath")
     }
