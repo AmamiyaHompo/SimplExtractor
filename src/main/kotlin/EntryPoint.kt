@@ -111,7 +111,7 @@ class EntryPoint : Application() {
                 }
             } else {
                 println("Get ANS of ${filePaths[0]}")
-                val anArchive = Archive(anANS!!,filePaths[0])
+                val anArchive = Archive(anANS,filePaths[0])
 
                 Platform.runLater {
                     tab.text = "Extracting"
