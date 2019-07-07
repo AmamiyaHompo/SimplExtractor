@@ -56,7 +56,7 @@ class EntryPoint : Application() {
         }
         aTabSpace.onDragDropped = EventHandler { event ->
             val db = event.dragboard
-            val newFilePaths = db.files.map{it.toString()}
+            val newFilePaths = db.files.map{it.toString()}.sorted()
             val newAnalyzeTab = generateAnalyzeTab(tabPane, newFilePaths.toTypedArray())
             event.consume()
 
@@ -203,8 +203,8 @@ class EntryPoint : Application() {
         }
         tabPane.onDragDropped = EventHandler { event ->
             val db = event.dragboard
-            val packagedFilePaths = db.files.map{it.toString()}
-            val newAnalyzeTab = generateAnalyzeTab(tabPane, packagedFilePaths.toTypedArray())
+            val sortedFilePaths = db.files.map{it.toString()}.sorted()
+            val newAnalyzeTab = generateAnalyzeTab(tabPane, sortedFilePaths.toTypedArray())
             event.consume()
 
             tabPane.tabs.add(newAnalyzeTab)
@@ -224,8 +224,8 @@ class EntryPoint : Application() {
         }
         extractDropPoint.onDragDropped = EventHandler { event ->
             val db = event.dragboard
-            val packagedFilePaths = db.files.map{it.toString()}
-            val newAnalyzeTab = generateAnalyzeTab(tabPane, packagedFilePaths.toTypedArray())
+            val sortedFilePaths = db.files.map{it.toString()}.sorted()
+            val newAnalyzeTab = generateAnalyzeTab(tabPane, sortedFilePaths.toTypedArray())
             event.consume()
 
             tabPane.tabs.add(newAnalyzeTab)
