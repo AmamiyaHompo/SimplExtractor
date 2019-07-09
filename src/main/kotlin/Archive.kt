@@ -37,7 +37,8 @@ class Archive (
 
         try {
             Extract(archivePath, theWorkingDirectory, false, null)
-                .extractSomething(getInArchive(), idList.toIntArray())
+                //.extractSomething(getInArchive(), idList.toIntArray())
+                .extractEverything()
         } catch (e: Exception) {
             return Pair(MessageType.Critical, "Fail when extracting $archivePath")
         }
