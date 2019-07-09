@@ -79,17 +79,16 @@ class EntryPoint : Application() {
         rASV = checkArchiveVolume(filePaths)
         addMessageLabel(messageBox, rASV.first, rASV.second)
         when(rASV.first) {
-            MessageType.Warning -> {
+            MessageType.Critical -> {
                 tab.text = "No Archive"
-                tab.style = defaultBlackTabStyle.plus("-fx-background-color: LightSkyBlue")
-                aTabSpace.style = "-fx-background-color: CornflowerBlue"
+                tab.style = defaultBlackTabStyle.plus("-fx-background-color: Red")
+                aTabSpace.style = "-fx-background-color: LightCoral"
                 return tab
             }
-            MessageType.Critical -> {
-                tab.text = "Too much archives"
-                tab.style = defaultBlackTabStyle.plus("-fx-background-color: yellow")
-                aTabSpace.style = "-fx-background-color: yellow"
-                return tab
+            MessageType.Warning -> {
+                tab.text = "Too much Archive"
+                tab.style = defaultBlackTabStyle.plus("-fx-background-color: LightSkyBlue")
+                aTabSpace.style = "-fx-background-color: CornflowerBlue"
             }
             else -> {}
         }
@@ -98,58 +97,63 @@ class EntryPoint : Application() {
         tab.style = defaultBlackTabStyle
 
         val task = GlobalScope.launch {
+            for ( filePath in filePaths ) {
 
-            // Step 2: Select ItemID of extracting file
-            Platform.runLater {
-                tab.text = "Open an Archive"
-            }
-            println("Open an Archive ${filePaths[0]}")
-            val anANS = openArchive(filePaths[0])
-            if (anANS == null) {
-                Platform.runLater {
-                    tab.text = "Fail to get ANS"
+                if (!filePath.isSingleVolume() && !filePath.isFirstVolume()) {
+                    println(filePath)
+                    continue
                 }
-            } else {
-                println("Get ANS of ${filePaths[0]}")
-                val anArchive = Archive(anANS,filePaths[0])
-
+                // Step 2: Select ItemID of extracting file
                 Platform.runLater {
-                    tab.text = "Extracting"
+                    tab.text = "Open an Archive"
                 }
-                // Step 3: Extract each items by ItemID
-                println("Extract ${filePaths[0]}")
-                rASV = anArchive.extractAll()
-                Platform.runLater {
-                    addMessageLabel(messageBox, rASV.first, rASV.second)
-                }
-                if (rASV.first == MessageType.Critical) {
+                println("Open an Archive $filePath")
+                val anANS = openArchive(filePath)
+                if (anANS == null) {
                     Platform.runLater {
-                        tab.text = "Fail to extract every files"
-                        tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
-                        aTabSpace.style = "-fx-background-color: red"
+                        tab.text = "Fail to get ANS"
                     }
                 } else {
-                    println("Rename ${filePaths[0]}")
-                    rASV = anArchive.renameAll()
+                    println("Get ANS of $filePath")
+                    val anArchive = Archive(anANS,filePath)
+
+                    Platform.runLater {
+                        tab.text = "Extracting"
+                    }
+                    // Step 3: Extract each items by ItemID
+                    println("Extract $filePath")
+                    rASV = anArchive.extractAll()
                     Platform.runLater {
                         addMessageLabel(messageBox, rASV.first, rASV.second)
                     }
-                    Platform.runLater {
-                        if (rASV.first == MessageType.Critical) {
-                            tab.text = "Fail to rename"
+                    if (rASV.first == MessageType.Critical) {
+                        Platform.runLater {
+                            tab.text = "Fail to extract every files"
                             tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
                             aTabSpace.style = "-fx-background-color: red"
-                        } else {
-                            tab.text = "Success"
-                            tab.style = defaultBlackTabStyle.plus("-fx-background-color: green")
-                            aTabSpace.style = "-fx-background-color: green"
                         }
+                    } else {
+                        println("Rename $filePath")
+                        rASV = anArchive.renameAll()
+                        Platform.runLater {
+                            addMessageLabel(messageBox, rASV.first, rASV.second)
+                        }
+                        Platform.runLater {
+                            if (rASV.first == MessageType.Critical) {
+                                tab.text = "Fail to rename"
+                                tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
+                                aTabSpace.style = "-fx-background-color: red"
+                            } else {
+                                tab.text = "Success"
+                                tab.style = defaultBlackTabStyle.plus("-fx-background-color: green")
+                                aTabSpace.style = "-fx-background-color: green"
+                            }
+                        }
+                        println("Close $filePath")
+                        anArchive.closeArchive()
                     }
-                    println("Close ${filePaths[0]}")
-                    anArchive.closeArchive()
                 }
             }
-
             println("End a task")
         }
 

@@ -15,7 +15,7 @@ fun checkArchiveVolume(filePaths: Array<Path>): Pair<MessageType,String> {
 
     return when (count) {
         1 -> Pair(MessageType.NoProblem, "Only one\nArchive")
-        0 -> Pair(MessageType.Warning, "No\nArchive")
-        else -> Pair(MessageType.Critical, "Too much\nArchives")
+        0 -> Pair(MessageType.Critical, "No\nArchive")
+        else -> Pair(MessageType.Warning, "Too much\nArchives")
     }
 }
