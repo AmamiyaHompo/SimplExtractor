@@ -39,7 +39,7 @@ class Archive (
             Extract(archivePath, theWorkingDirectory, false, null)
                 .extractSomething(getInArchive(), idList.toIntArray())
         } catch (e: Exception) {
-            return Pair(MessageType.Critical, "Fail when extracting")
+            return Pair(MessageType.Critical, "Fail when extracting $archivePath")
         }
         return Pair(MessageType.NoProblem, "No Problem")
     }
