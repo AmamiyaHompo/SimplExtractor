@@ -132,6 +132,12 @@ class EntryPoint : Application() {
                             tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
                             aTabSpace.style = "-fx-background-color: red"
                         }
+                    } else if (rASV.first == MessageType.Bad) {
+                        Platform.runLater {
+                            tab.text = "Contains non-archive File"
+                            tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
+                            aTabSpace.style = "-fx-background-color: red"
+                        }
                     } else {
                         println("Rename $filePath")
                         rASV = anArchive.renameAll()

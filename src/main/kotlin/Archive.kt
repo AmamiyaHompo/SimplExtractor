@@ -31,6 +31,8 @@ class Archive (
         val idList: MutableList<Int> = mutableListOf()
         for ( anItem in itemList ) {
             idList.add(anItem.idInArchive)
+            if (!anItem.path.isArchive())
+                return Pair(MessageType.Bad, "Contains\nnon-archive file")
         }
 
         try {
