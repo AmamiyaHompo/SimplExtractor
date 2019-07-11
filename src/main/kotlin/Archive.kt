@@ -1,9 +1,7 @@
 import archive.*
 import net.sf.sevenzipjbinding.IInArchive
 import net.sf.sevenzipjbinding.simple.ISimpleInArchiveItem
-import util.getDirectory
-import util.getFullName
-import util.replaceSpace
+import util.*
 import java.io.File
 
 class Archive (
@@ -51,9 +49,11 @@ class Archive (
             val oldFile = File(theWorkingDirectory+directoryDelimiter+anItem.path)
             val newFile = File(theWorkingDirectory
                     +directoryDelimiter
+                    +anItem.path.getFileName()
+                    +"."
                     +renamePath
                     +"."
-                    +anItem.path.getFullName()
+                    +anItem.path.getExtension()
             )
             if (oldFile.renameTo(newFile)) {
                 println("Success to rename ${oldFile.absolutePath}")
