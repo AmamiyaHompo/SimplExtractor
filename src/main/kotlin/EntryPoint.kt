@@ -124,7 +124,7 @@ class EntryPoint : Application() {
                     println("Extract $filePath")
                     rASV = anArchive.extractAll()
                     Platform.runLater {
-                        addMessageLabel(messageBox, rASV.first, rASV.second)
+                        addMessageLabel(messageBox, rASV.first, if (rASV.first == MessageType.NoProblem) "" else rASV.second)
                     }
                     if (rASV.first == MessageType.Critical) {
                         Platform.runLater {
@@ -132,11 +132,17 @@ class EntryPoint : Application() {
                             tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
                             aTabSpace.style = "-fx-background-color: red"
                         }
+                    } else if (rASV.first == MessageType.Bad) {
+                        Platform.runLater {
+                            tab.text = "Contains non-archive File"
+                            tab.style = defaultBlackTabStyle.plus("-fx-background-color: red")
+                            aTabSpace.style = "-fx-background-color: red"
+                        }
                     } else {
                         println("Rename $filePath")
                         rASV = anArchive.renameAll()
                         Platform.runLater {
-                            addMessageLabel(messageBox, rASV.first, rASV.second)
+                            addMessageLabel(messageBox, rASV.first, if (rASV.first == MessageType.NoProblem) "" else rASV.second)
                         }
                         Platform.runLater {
                             if (rASV.first == MessageType.Critical) {
