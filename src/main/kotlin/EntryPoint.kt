@@ -124,7 +124,7 @@ class EntryPoint : Application() {
                     println("Extract $filePath")
                     rASV = anArchive.extractAll()
                     Platform.runLater {
-                        addMessageLabel(messageBox, rASV.first, rASV.second)
+                        addMessageLabel(messageBox, rASV.first, if (rASV.first == MessageType.NoProblem) "" else rASV.second)
                     }
                     if (rASV.first == MessageType.Critical) {
                         Platform.runLater {
@@ -142,7 +142,7 @@ class EntryPoint : Application() {
                         println("Rename $filePath")
                         rASV = anArchive.renameAll()
                         Platform.runLater {
-                            addMessageLabel(messageBox, rASV.first, rASV.second)
+                            addMessageLabel(messageBox, rASV.first, if (rASV.first == MessageType.NoProblem) "" else rASV.second)
                         }
                         Platform.runLater {
                             if (rASV.first == MessageType.Critical) {
