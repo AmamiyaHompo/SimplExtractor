@@ -28,7 +28,7 @@ class EntryPoint : Application() {
     private val defaultWhiteTabStyle = defaultTabStyle.plus(" -fx-text-base-color: white;")
     private val defaultBlackTabStyle = defaultTabStyle.plus(" -fx-text-base-color: Black;")
 
-    private fun generateAnalyzeTab (tabPane: TabPane, filePaths: Array<Path>): Tab {
+    private fun generateResultTab (tabPane: TabPane, filePaths: Array<Path>): Tab {
         val tab = Tab()
         tabCount += 1
         tab.text = "Tab$tabCount"
@@ -57,11 +57,11 @@ class EntryPoint : Application() {
         aTabSpace.onDragDropped = EventHandler { event ->
             val db = event.dragboard
             val newFilePaths = db.files.map{it.toString()}.sorted()
-            val newAnalyzeTab = generateAnalyzeTab(tabPane, newFilePaths.toTypedArray())
+            val newResultTab = generateResultTab(tabPane, newFilePaths.toTypedArray())
             event.consume()
 
-            tabPane.tabs.add(newAnalyzeTab)
-            tabPane.selectionModel.select(newAnalyzeTab)
+            tabPane.tabs.add(newResultTab)
+            tabPane.selectionModel.select(newResultTab)
             event.isDropCompleted = true
         }
 
@@ -214,11 +214,11 @@ class EntryPoint : Application() {
         tabPane.onDragDropped = EventHandler { event ->
             val db = event.dragboard
             val sortedFilePaths = db.files.map{it.toString()}.sorted()
-            val newAnalyzeTab = generateAnalyzeTab(tabPane, sortedFilePaths.toTypedArray())
+            val newResultTab = generateResultTab(tabPane, sortedFilePaths.toTypedArray())
             event.consume()
 
-            tabPane.tabs.add(newAnalyzeTab)
-            tabPane.selectionModel.select(newAnalyzeTab)
+            tabPane.tabs.add(newResultTab)
+            tabPane.selectionModel.select(newResultTab)
             event.isDropCompleted = true
         }
 
@@ -235,11 +235,11 @@ class EntryPoint : Application() {
         extractDropPoint.onDragDropped = EventHandler { event ->
             val db = event.dragboard
             val sortedFilePaths = db.files.map{it.toString()}.sorted()
-            val newAnalyzeTab = generateAnalyzeTab(tabPane, sortedFilePaths.toTypedArray())
+            val newResultTab = generateResultTab(tabPane, sortedFilePaths.toTypedArray())
             event.consume()
 
-            tabPane.tabs.add(newAnalyzeTab)
-            tabPane.selectionModel.select(newAnalyzeTab)
+            tabPane.tabs.add(newResultTab)
+            tabPane.selectionModel.select(newResultTab)
             event.isDropCompleted = true
         }
         extractDropPoint.onDragExited = EventHandler { event ->
