@@ -17,6 +17,7 @@ fun main(args : Array<String>) {
             return
         }
         theWorkingDirectory = aWorkingDirectory
+        theTargetDirectory = aTargetDirectory
         Application.launch(EntryPoint().javaClass, *args)
     }
 
