@@ -29,11 +29,8 @@ class Archive (
 
     fun extractAll(): Message {
         val idList: MutableList<Int> = mutableListOf()
-        for ( anItem in itemList ) {
+        for ( anItem in itemList )
             idList.add(anItem.idInArchive)
-            if (!anItem.path.isArchive())
-                return Pair(MessageType.Bad, "Contains\nnon-archive file")
-        }
 
         try {
             Extract(archivePath, theWorkingDirectory, false, null)
