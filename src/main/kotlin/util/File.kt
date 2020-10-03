@@ -4,6 +4,7 @@ package util
 Copy from https://github.com/eugenp/tutorials/tree/master/core-kotlin/src/main/kotlin/com/baeldung/filesystem
  */
 
+import Message
 import java.io.File
 
 import Path
@@ -38,8 +39,7 @@ fun writeFileDirectlyAsBytes(fileName: String, fileContent: String) =
     File(fileName).writeBytes(fileContent.toByteArray())
 
 
-// TODO: Not yet implemented
-fun checkArchiveExistence(filePaths: Array<Path>): Pair<MessageType,String> {
+fun checkArchiveExistence(filePaths: Array<Path>): Message {
     for (aPath in filePaths) {
         if (!File(aPath).exists())
             return Pair(MessageType.Bad,"Can't access\n$aPath")

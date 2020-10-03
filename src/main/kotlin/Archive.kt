@@ -27,7 +27,7 @@ class Archive (
         }
     }
 
-    fun extractAll(): Pair<MessageType,String> {
+    fun extractAll(): Message {
         val idList: MutableList<Int> = mutableListOf()
         for ( anItem in itemList ) {
             idList.add(anItem.idInArchive)
@@ -45,7 +45,7 @@ class Archive (
         return Pair(MessageType.NoProblem, "No Problem")
     }
 
-    fun renameAll(): Pair<MessageType,String> {
+    fun renameAll(): Message {
         val renamedPath = archivePath.getFullName().replaceSpace()
         for (anItem in itemList) {
             val oldFile = File(theWorkingDirectory+directoryDelimiter+anItem.path)
