@@ -1,9 +1,10 @@
 package archive
 
 import Message
+import util.*
+
 import Path
 import MessageType
-import util.*
 
 
 fun checkArchiveVolume(filePaths: Array<Path>): Message {
@@ -17,6 +18,6 @@ fun checkArchiveVolume(filePaths: Array<Path>): Message {
     return when (count) {
         1 -> Pair(MessageType.NoProblem, "Only one\nArchive")
         0 -> Pair(MessageType.Critical, "No\nArchive")
-        else -> Pair(MessageType.Warning, "Too much\nArchives")
+        else -> Pair(MessageType.NoProblem, "Many\nArchives")
     }
 }

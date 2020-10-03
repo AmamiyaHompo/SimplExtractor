@@ -9,7 +9,7 @@ class Item (
     , val path: Path
     , val idInArchive: ItemIndex
 ) {
-    val id: ItemID
+    private val id: ItemID
 
     companion object {
         var serialCount = 1
@@ -19,13 +19,6 @@ class Item (
         id = serialCount
         serialCount += 1
     }
-
-    private fun checkArchiveName(fullName: String): Boolean? =
-        when {
-            fullName.getExtension() == "exe" -> null // Make more logic
-            fullName.isArchive() -> true
-            else -> false
-        }
 
     override fun equals(other: Any?): Boolean {
         if (other == null || javaClass != other.javaClass) return false
@@ -57,6 +50,5 @@ fun ISimpleInArchiveItem.makeItemFromArchiveItem(): Item {
 
 typealias ItemIndex = Int
 typealias ItemID = Int
-typealias Date = Long
 typealias Name = String
 typealias DataSize = Long

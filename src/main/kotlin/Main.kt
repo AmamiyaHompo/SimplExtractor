@@ -3,6 +3,7 @@ import com.xenomachina.argparser.ArgParser
 
 import archive.*
 import util.*
+import java.io.File
 
 fun main(args : Array<String>) {
     println("SimplExtract-Kotlin")
@@ -18,6 +19,10 @@ fun main(args : Array<String>) {
         }
         theWorkingDirectory = aWorkingDirectory
         theTargetDirectory = aTargetDirectory
+
+        val targetDirectoryFile = File(theTargetDirectory)
+        if (!targetDirectoryFile.exists())
+            targetDirectoryFile.mkdirs()
         Application.launch(EntryPoint().javaClass, *args)
     }
 

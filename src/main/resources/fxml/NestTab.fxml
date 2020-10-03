@@ -21,24 +21,7 @@
          </children>
       </AnchorPane>
       <TextArea fx:id="FilePaths" prefHeight="128.0" prefWidth="200.0" />
-      <AnchorPane maxHeight="28.0" prefHeight="32.0">
-         <children>
-            <HBox layoutX="0.0" layoutY="0.0" prefHeight="40.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="128.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <RadioButton mnemonicParsing="false" text="Hash/Size Only">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="ComparingMethod" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="+FileName" toggleGroup="$ComparingMethod" />
-                  <RadioButton mnemonicParsing="false" text="+Directory" toggleGroup="$ComparingMethod" />
-                  <CheckBox fx:id="ShowIgnored" mnemonicParsing="false" selected="true" text="Show Ig." />
-                  <CheckBox fx:id="ShowExtracted" mnemonicParsing="false" text="Show Ex.ed" />
-                  <CheckBox fx:id="ShowDirectory" mnemonicParsing="false" selected="true" text="Show Directory" />
-               </children>
-            </HBox>
-            <ChoiceBox fx:id="ChoiceBox" layoutX="520.0" layoutY="0.0" prefWidth="150.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         </children>
+      <AnchorPane maxHeight="12.0" prefHeight="16.0">
       </AnchorPane>
       <TextArea fx:id="ResultArea" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
    </children>

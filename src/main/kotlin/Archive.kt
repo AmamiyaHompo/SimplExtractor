@@ -6,7 +6,7 @@ import java.io.File
 
 class Archive (
     private val ans: ArchiveAndStream
-    , val archivePath: Path
+    , private val archivePath: Path
 ) {
     private val itemList: MutableList<Item> = mutableListOf()
 
@@ -65,8 +65,5 @@ class Archive (
         return Pair(MessageType.NoProblem,"No Problem")
     }
 
-    fun getInArchive(): IInArchive = ans.inArchive
     fun closeArchive() = ans.close()
 }
-
-typealias ItemMap = MutableList<Item>

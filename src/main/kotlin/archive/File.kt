@@ -9,10 +9,11 @@ import net.sf.sevenzipjbinding.*
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream
 
 import util.*
+
 import Path
 
 
-class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?) {
+class ArchiveAndStream (val inArchive: IInArchive, private var randomAccess: RandomAccessFile?, private var archiveCallback: ArchiveOpenVolumeCallback?) {
     fun isSingle() = randomAccess != null
     fun isMulti() = archiveCallback != null
 

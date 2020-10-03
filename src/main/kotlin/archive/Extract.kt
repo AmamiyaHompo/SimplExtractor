@@ -146,15 +146,8 @@ class Extract internal constructor(
     @Throws(ExtractionException::class)
     fun prepareOutputDirectory() {
         outputDirectoryFile = File(outputDirectory)
-        if (!outputDirectoryFile.exists()) {
+        if (!outputDirectoryFile.exists())
             outputDirectoryFile.mkdirs()
-        } else {
-            /*
-            if (outputDirectoryFile!!.list()!!.isNotEmpty()) {
-                throw ExtractionException("Output directory not empty: $outputDirectory")
-            }
-            */
-        }
     }
 
     @Throws(ExtractionException::class)
@@ -164,28 +157,6 @@ class Extract internal constructor(
             if (filterRegex != null) {
                 ids = filterIds(inArchive, filterRegex)
             }
-            inArchive.extract(ids, test, ExtractCallback(inArchive))
-        } catch (e: SevenZipException) {
-            val stringBuilder = StringBuilder()
-            stringBuilder.append("Error extracting archive '")
-            stringBuilder.append(archive)
-            stringBuilder.append("': ")
-            stringBuilder.append(e.message)
-            if (e.cause != null) {
-                stringBuilder.append(" (")
-                stringBuilder.append(e.cause.toString())
-                stringBuilder.append(')')
-            }
-            val message = stringBuilder.toString()
-
-            throw ExtractionException(message, e)
-        }
-    }
-
-    @Throws(ExtractionException::class)
-    fun extractSomething(inArchive: IInArchive, ids: IntArray) {
-        prepareOutputDirectory()
-        try {
             inArchive.extract(ids, test, ExtractCallback(inArchive))
         } catch (e: SevenZipException) {
             val stringBuilder = StringBuilder()
@@ -214,7 +185,7 @@ class Extract internal constructor(
     private fun filterIds(inArchive: IInArchive, regex: String): IntArray {
         val idList = ArrayList<Int>()
 
-        val numberOfItems = inArchive.getNumberOfItems()
+        val numberOfItems = inArchive.numberOfItems
 
         val pattern = Pattern.compile(regex)
         for (i in 0 until numberOfItems) {
