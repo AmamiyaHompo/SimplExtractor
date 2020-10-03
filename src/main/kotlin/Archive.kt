@@ -46,14 +46,14 @@ class Archive (
     }
 
     fun renameAll(): Pair<MessageType,String> {
-        val renamePath = archivePath.getFullName().replaceSpace()
+        val renamedPath = archivePath.getFullName().replaceSpace()
         for (anItem in itemList) {
             val oldFile = File(theWorkingDirectory+directoryDelimiter+anItem.path)
-            val newFile = File(theWorkingDirectory
+            val newFile = File(theTargetDirectory
                     +directoryDelimiter
-                    +anItem.path.getFileName()
+                    +anItem.path.getFullName()
                     +"."
-                    +renamePath
+                    +renamedPath
                     +"."
                     +anItem.path.getExtension()
             )
